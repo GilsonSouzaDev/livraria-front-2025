@@ -1,0 +1,175 @@
+@use 'sass:color';
+
+@import '../../base';
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 2px solid $accent-color;
+  margin-bottom: 20px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5em;
+  border-bottom: none; // Remove a borda
+  padding-bottom: 0; // Sem padding
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+nav li {
+  margin-left: 20px;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+nav a {
+  text-decoration: none;
+  color: $secondary-color;
+  font-family: 'Merriweather', serif;
+  font-weight: bold;
+  padding: 5px 10px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.banner {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.banner-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 5px;
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  width: 80%;
+  border-radius: 5px;
+}
+
+h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+  color: white; // Cor do texto
+  border-bottom: none;
+}
+
+.main-content {
+  padding: 20px 0;
+}
+
+.featured-books {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.featured-books .book {
+  width: 30%;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid $secondary-color;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+/* Adicionado para o novo layout */
+.container {
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid $secondary-color;
+}
+
+/* Alinhamento e espacçamento do header*/
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 2px solid $accent-color;
+  margin-bottom: 20px;
+}
+
+/* Títulos gerais */
+h1,
+h2 {
+  font-family: 'Merriweather', serif;
+  color: $primary-color;
+  margin-bottom: 0.8em;
+  border-bottom: 2px solid $accent-color;
+  padding-bottom: 0.3em;
+}
+
+/*Removendo a borda do titulo H1*/
+h1 {
+  border-bottom: none;
+}
+
+/* Estilos da navegação*/
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+nav li {
+  margin-left: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: $secondary-color;
+  font-family: 'Merriweather', serif;
+  font-weight: bold;
+  padding: 5px 10px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul {
+    margin-top: 10px;
+    flex-direction: column;
+  }
+
+  nav li {
+    margin-left: 0;
+    margin-bottom: 5px;
+  }
+}

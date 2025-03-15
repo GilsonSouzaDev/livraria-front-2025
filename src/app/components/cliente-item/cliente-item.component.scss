@@ -1,0 +1,51 @@
+@use 'sass:color';
+@import '../../base';
+
+.container-cliente {
+  max-width: 960px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+
+
+  .container-lista{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 2px solid $accent-color;
+  }
+
+
+  &:last-child {
+    border-bottom: none; // Remove a borda da última linha
+  }
+
+  .cliente-info {
+    flex-grow: 1;
+    margin-right: 10px; // Espaço entre o texto e o botão
+
+    .cliente-nome {
+      font-weight: bold;
+      color: $text-color;
+      margin-bottom: 5px;
+    }
+
+    .cliente-email {
+      color: $secondary-color;
+      font-size: 0.9em;
+    }
+  }
+
+  button {
+    @extend %button-style;
+    background-color: $primary-color;
+    color: white;
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+}

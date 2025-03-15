@@ -1,0 +1,65 @@
+@use "sass:color";
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+// Variáveis (cores - tema livros)
+$primary-color: #a87942;
+$secondary-color: #5e432c;
+$accent-color: #d4a373;
+$text-color: #333;
+$light-background: #f5f0e1;
+$dark-background: #432a1d;
+$error-color: #a94442;
+$link-color: #0056b3;
+
+// Google Fonts
+
+
+// Reset e estilos gerais
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: $light-background;
+  color: $text-color;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid $secondary-color;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Merriweather', serif;
+  color: $primary-color;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid $accent-color;
+  padding-bottom: 0.2em;
+}
+
+h2,
+h3,
+h4 {
+  border-bottom: 1px solid $accent-color;
+}
+
+// Placeholder para estilos de botão (evita repetição)
+%button-style {
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Merriweather', serif;
+  margin-right: 5px;
+  font-size: 1em;
+}

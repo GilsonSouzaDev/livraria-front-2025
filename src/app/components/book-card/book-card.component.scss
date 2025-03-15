@@ -1,0 +1,40 @@
+@use 'sass:color';
+@import '../../base';
+
+.book {
+  width: 30%;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid $secondary-color;
+  padding: 15px;
+  border-radius: 5px;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    color: $text-color;
+  }
+}
+
+@media (max-width: 768px) {
+  .book {
+    width: 48%;
+    /* Dois livros por linha */
+  }
+}
+
+@media (max-width: 480px) {
+  .book {
+    width: 100%;
+    /* Um livro por linha */
+  }
+}

@@ -1,0 +1,174 @@
+<section class="main-content">
+  <h2 class="gerenciar_titulo">Gerenciar Cliente</h2>
+  <div *ngIf="cliente$ | async as cliente">
+    <h3 class="client-name" *ngIf="cliente">{{ cliente.nome }}</h3>
+    <p class="client-dados" *ngIf="cliente">Email: {{ cliente.email }}</p>
+    <p class="client-dados" *ngIf="cliente">
+      Codigo: {{ cliente.codigoCliente }}
+    </p>
+    <p class="client-dados" *ngIf="cliente">CPF: {{ cliente.cpf }}</p>
+
+    <!-- Botão para exibir/ocultar o formulário de cliente -->
+    <button class="toggle-form-button" (click)="toggleFormCliente()">
+      {{ exibirFormCliente ? 'Ocultar' : 'Editar' }} Dados Pessoais
+    </button>
+
+    <!-- Formulário para editar os dados do cliente (inicialmente oculto) -->
+
+
+    <h3>Telefones:</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>DDD</th>
+          <th>Número</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let telefone of cliente.telefonesClientes">
+          <td>{{ telefone.tipoTelefone }}</td>
+          <td>{{ telefone.ddd }}</td>
+          <td>{{ telefone.numero }}</td>
+          <td>
+            <button
+              class="edit-phone-button"
+              (click)="editarTelefone(telefone)"
+            >
+              Editar
+            </button>
+            <button
+              class="delete-phone-button"
+              (click)="removerTelefone(telefone)"
+            >
+              Excluir
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Botão para exibir/ocultar o formulário de telefone -->
+    <button class="toggle-form-button add-button" (click)="toggleFormTelefone()">
+      {{ exibirFormTelefone ? 'Ocultar' : 'Adicionar' }} Telefone
+    </button>
+
+    <!-- Componente para adicionar/editar telefones (inicialmente oculto) -->
+    <app-cliente-telefone-form
+    *ngIf="exibirFormTelefone"
+      [clienteId]="cliente.clienteId"
+      [telefoneEmEdicao]="telefoneEmEdicao"
+      (telefoneAdicionado)="adicionarTelefone($event)"
+      (telefoneEditado)="salvarTelefoneEditado($event)"
+    ></app-cliente-telefone-form>
+
+    <h3>Endereços:</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Logradouro</th>
+          <th>Número</th>
+          <th>Bairro</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let endereco of cliente.enderecosClientes">
+          <td>{{ endereco.nomeEndereco }}</td>
+          <td>{{ endereco.logradouro }}</td>
+          <td>{{ endereco.numero }}</td>
+          <td>{{ endereco.bairro }}</td>
+          <td>
+            <button
+              class="edit-address-button"
+              (click)="editarEndereco(endereco)"
+            >
+              Editar
+            </button>
+            <button
+              class="delete-phone-button"
+              (click)="removerEndereco(endereco.enderecoId)"
+            >
+              Excluir
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Botão para exibir/ocultar o formulário de endereço -->
+    <button class="toggle-form-button add-button" (click)="toggleFormEndereco()">
+      {{ exibirFormEndereco ? 'Ocultar' : 'Adicionar' }} Endereço
+    </button>
+
+    <!-- Componente para adicionar/editar endereços (inicialmente oculto) -->
+   <app-cliente-endereco-form
+      *ngIf="exibirFormEndereco"
+      [clienteId]="cliente.clienteId"
+      [enderecoEmEdicao]="enderecoEmEdicao"
+      (enderecoAdicionado)="adicionarEndereco($event)"
+      (enderecoEditado)="salvarEnderecoEditado($event)"
+    ></app-cliente-endereco-form>
+
+    <h3>Cartões:</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>bandeira</th>
+          <th>numero</th>
+          <th>nome</th>
+          <th>preferencial</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cartao of cliente.cartoesCreditoClientes">
+          <td>{{ cartao.bandeiraID }}</td>
+          <td>{{ cartao.numeroCartao }}</td>
+          <td>{{ cartao.nomeNoCartao }}</td>
+          <td>{{ cartao.preferencial }}</td>
+          <td>
+            <button class="edit-card-button" (click)="editarCartao(cartao)">
+              Editar
+            </button>
+            <button
+              class="delete-phone-button"
+              (click)="removerCartao(cartao.cartaoCreditoClienteId)"
+            >
+              Excluir
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Botão para exibir/ocultar o formulário de cartão -->
+    <button class="toggle-form-button add-button" (click)="toggleFormCartao()">
+      {{ exibirFormCartao ? 'Ocultar' : 'Adicionar' }} Cartão
+    </button>
+
+    <!-- Componente para adicionar/editar cartões (inicialmente oculto) -->
+    <app-cliente-cartao-form
+      *ngIf="exibirFormCartao"
+      [clienteId]="cliente.clienteId"
+      [cartaoEmEdicao]="cartaoEmEdicao"
+      (cartaoAdicionado)="adicionarCartao($event)"
+      (cartaoEditado)="salvarCartaoEditado($event)"
+    ></app-cliente-cartao-form>
+
+    <button class="delete-client-button" (click)="deletarCliente()">
+      Excluir Conta
+    </button>
+
+    <!-- Botão Ativar/Inativar -->
+    <button
+      class="inactive-button"
+      (click)="ativarInativarCliente(cliente)"
+    >
+      {{ cliente.ativo ? 'Inativar' : 'Ativar' }} Cliente
+    </button>
+  </div>
+  <p *ngIf="!(cliente$ | async)">Cliente não encontrado.</p>
+</section>

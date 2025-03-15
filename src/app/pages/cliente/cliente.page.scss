@@ -1,0 +1,22 @@
+@use 'sass:color';
+@import '../../base';
+
+.main-content {
+  padding: 20px;
+
+  .main-title {
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Merriweather', serif;
+    font-size: 3rem;
+    color: $primary-color;
+    border-bottom: 2px solid $accent-color;
+    padding-bottom: 0.2em;
+  }
+
+  .client-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}

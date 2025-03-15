@@ -1,0 +1,176 @@
+@use 'sass:color';
+@import '../../base';
+
+.main-content {
+  padding: 20px;
+  max-width: 960px;
+  margin: auto;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .gerenciar_titulo {
+    text-align: center;
+  }
+
+  .client-name {
+    color: $primary-color;
+    margin-bottom: 5px;
+    font-size: 1.5em;
+  }
+
+  .client-dados {
+    color: $secondary-color;
+    margin-bottom: 15px;
+  }
+
+  form {
+    margin-bottom: 20px;
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: $secondary-color;
+      }
+
+      input[type="text"],
+      input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid $secondary-color;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: 'Open Sans', sans-serif;
+
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 3px rgba($primary-color, 0.5);
+        }
+      }
+    }
+
+    button[type="submit"] {
+      @extend %button-style;
+      background-color: $primary-color;
+
+      &:hover {
+        background-color: color.adjust($primary-color, $lightness: -10%);
+      }
+    }
+  }
+
+  h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-family: 'Open Sans', sans-serif;
+
+    thead {
+      background-color: $accent-color;
+
+      th {
+        font-family: 'Merriweather', serif;
+        padding: 10px;
+        border: 1px solid $secondary-color;
+        text-align: left;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: rgba($light-background, 0.5); //Ligeiramente mais escuro
+        }
+
+        td {
+          padding: 10px;
+          border: 1px solid $secondary-color;
+        }
+      }
+    }
+  }
+
+  .delete-phone-button {
+    @extend %button-style;
+    background-color: $error-color;
+    color: white;
+
+    &:hover {
+      background-color: color.adjust($error-color, $lightness: -10%);
+    }
+  }
+
+  .edit-phone-button,
+  .edit-address-button,
+  .edit-card-button {
+    @extend %button-style;
+    background-color: $primary-color;
+    color: white;
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+
+  .delete-client-button {
+    @extend %button-style;
+    background-color: $error-color;
+    margin-top: 20px;
+    color: white;
+
+    &:hover {
+      background-color: color.adjust($error-color, $lightness: -10%);
+    }
+  }
+
+  /* Estilo para o botão "Adicionar" (pode ser reaproveitado para outros) */
+  .toggle-form-button,
+  .add-button {
+    @extend %button-style;
+    background-color: $secondary-color;
+    color: white;
+    margin-bottom: 10px;
+    /* Espaçamento abaixo do botão */
+    display: block;
+    /* Garante que o botão ocupe a largura total */
+    width: auto;
+    text-align: center;
+
+    &:hover {
+      background-color: color.adjust($secondary-color, $lightness: -10%);
+    }
+  }
+
+  .inactive-button {
+    @extend %button-style;
+    background-color: $error-color;
+    color: white;
+    margin-top: 20px;
+
+    &:hover {
+      background-color: color.adjust($error-color, $lightness: -10%);
+    }
+  }
+
+  .active-button {
+    @extend %button-style;
+    background-color: green;
+    color: white;
+    margin-top: 20px;
+
+    &:hover {
+      background-color: color.adjust(green, $lightness: -10%);
+    }
+  }
+}

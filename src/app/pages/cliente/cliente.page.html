@@ -1,0 +1,6 @@
+<section class="main-content">
+  <h2 class="main-title">Gerenciamento de Clientes</h2>
+  <ul class="client-list">
+    <app-cliente-item *ngFor="let cliente of (clientes$ | async)" [cliente]="cliente"></app-cliente-item>
+  </ul>
+</section>

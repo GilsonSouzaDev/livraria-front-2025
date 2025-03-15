@@ -1,0 +1,30 @@
+<div class="container">
+    <header class="main-header">
+        <h1>Livraria Online</h1>
+        <nav>
+            <ul>
+                <li><a routerLink="/">Início</a></li>
+                <li><a routerLink="/cliente">Clientes</a></li>
+                <li><a routerLink="/cadastro-cliente">Cadastrar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <!-- Imagem de banner (placeholder online) -->
+        <div>
+          <img src="assets/img/Banner-principal.jpg" alt="Banner da Livraria" class="banner-image">
+        </div>
+
+    </section>
+
+    <section class="main-content">
+      <h2>Livros em Destaque</h2>
+        <div class="featured-books">
+          <app-book-card *ngFor="let book of books" [book]="book"></app-book-card>
+        </div>
+    </section>
+</div>
+
+
+
