@@ -14,6 +14,17 @@
     text-align: center;
   }
 
+  .coluna-fixa {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    white-space: nowrap;
+      /* Impede que o texto quebre */
+    overflow: hidden;
+    text-overflow: ellipsis;
+      /* Adiciona "..." caso o texto ultrapasse o limite */
+  }
+
   .client-name {
     color: $primary-color;
     margin-bottom: 5px;
@@ -133,6 +144,19 @@
       background-color: color.adjust($error-color, $lightness: -10%);
     }
   }
+
+     .finalizar-client-button {
+       @extend %button-style;
+       background-color: $dark-background;
+       margin-top: 20px;
+       color: white;
+
+       &:hover {
+         background-color: color.adjust($dark-background, $lightness: -10%);
+       }
+     }
+
+
 
   /* Estilo para o botão "Adicionar" (pode ser reaproveitado para outros) */
   .toggle-form-button,

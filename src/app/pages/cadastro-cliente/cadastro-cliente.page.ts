@@ -11,14 +11,14 @@ import {
   ReactiveFormsModule,
   FormArray,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 
 @Component({
   selector: 'app-cadastro-cliente-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './cadastro-cliente.page.html',
   styleUrls: ['./cadastro-cliente.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

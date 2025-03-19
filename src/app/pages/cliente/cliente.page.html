@@ -1,6 +1,22 @@
 <section class="main-content">
   <h2 class="main-title">Gerenciamento de Clientes</h2>
+
+  <!-- Componente de pesquisa -->
+  <app-cliente-search (search)="onSearch($event)"></app-cliente-search>
+
   <ul class="client-list">
-    <app-cliente-item *ngFor="let cliente of (clientes$ | async)" [cliente]="cliente"></app-cliente-item>
+    <!-- Use o componente cliente-item para cada cliente -->
+    <li *ngFor="let cliente of clientesFiltrados" class="client-item">
+      <app-cliente-item [cliente]="cliente"></app-cliente-item>
+    </li>
   </ul>
+
+  <div *ngIf="clientesFiltrados.length === 0 && !exibirMensagemInicial" class="no-results">
+    Nenhum cliente encontrado com os termos de pesquisa.
+  </div>
+
+   <div *ngIf="exibirMensagemInicial" class="initial-message">
+    Por favor, insira um termo de pesquisa para encontrar clientes.
+  </div>
+
 </section>

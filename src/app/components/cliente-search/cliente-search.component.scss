@@ -1,0 +1,120 @@
+@use 'sass:color';
+@import '../../base';
+
+.search-container {
+  max-width: 940px;
+  background-color: $light-background;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid $secondary-color;
+}
+
+.cont-icon{
+  display: flex;
+  gap: 8px;
+}
+
+.mat-icon{
+  color: $dark-background;
+  &:hover{
+    cursor: pointer;
+  }
+
+}
+
+.search-title {
+  font-size: 1.5em;
+  color: $primary-color;
+  margin-bottom: 10px;
+  font-family: 'Merriweather', serif;
+}
+
+.search-underline {
+  margin-bottom: 15px;
+}
+
+.search-description {
+  color: $text-color;
+  margin-bottom: 10px;
+}
+
+.search-input {
+  width: 96%;
+  padding: 12px;
+  border: 1px solid $secondary-color;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 1em;
+  font-family: 'Open Sans', sans-serif;
+  color: $text-color;
+  background-color: white;
+  transition: border-color 0.2s ease-in-out;
+  /* Animação na borda */
+
+  &:focus {
+    outline: none;
+    border-color: color.scale($primary-color, $lightness: 20%);
+    /* Borda mais clara quando focado */
+    box-shadow: 0 0 5px color.adjust($secondary-color, $alpha: -0.75);
+    /* Sombra sutil */
+  }
+}
+
+.search-buttons {
+  display: flex;
+  justify-content: flex-start;
+
+  button {
+    @extend %button-style;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Merriweather', serif;
+    transition: all 0.3s ease;
+    /* Animação suave para todos os efeitos */
+    position: relative;
+    overflow: hidden;
+    /* Para o efeito de ripple */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 100%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+    }
+
+    &:hover,
+    &:focus {
+      transform: translateY(-2px);
+      /* Leve elevação no hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active:before {
+      width: 150%;
+      height: 150%;
+      opacity: 1;
+    }
+
+    &:first-child {
+      background-color: $primary-color;
+      color: white;
+      margin-right: 10px;
+    }
+
+    &:last-child {
+      background-color: $dark-background;
+      color: white;
+    }
+  }
+}

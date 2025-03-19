@@ -1,10 +1,10 @@
+import { Cliente, ClienteUpdate } from './../../models/cliente';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms'; // Remova Validators
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, take } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CartaoCreditoCliente } from '../../models/cartao-credito';
-import { Cliente } from '../../models/cliente';
 import { EnderecoDto } from '../../models/endereco';
 import { TelefoneDto } from '../../models/telefone';
 import { CartaoCreditoService } from '../../services/cartao-credito.service';
@@ -17,6 +17,9 @@ import { ClienteEnderecoFormComponent } from '../../components/cliente-endereco-
 import { ClienteTelefoneFormComponent } from '../../components/cliente-telefone-form/cliente-telefone-form.component';
 import { ClienteFormComponent } from '../../components/cliente-form/cliente-form.component';
 
+import { error } from 'console';
+import { CaixaMensagemComponent } from '../../components/caixa-mensagem/caixa-mensagem.component';
+
 @Component({
   selector: 'app-gerenciar-cliente-page',
   standalone: true,
@@ -26,6 +29,7 @@ import { ClienteFormComponent } from '../../components/cliente-form/cliente-form
     ClienteEnderecoFormComponent,
     ClienteTelefoneFormComponent,
     ClienteFormComponent,
+    CaixaMensagemComponent,
   ],
   templateUrl: './gerenciar-cliente.page.html',
   styleUrls: ['./gerenciar-cliente.page.scss'],
@@ -47,6 +51,10 @@ export class GerenciarClientePageComponent implements OnInit {
 
   cliente$: Observable<Cliente | undefined> | null = null;
 
+  mensagem: string = '';
+  tipoMensagem: 'sucesso' | 'erro' | 'info' = 'info';
+  exibirMensagem: boolean = false;
+
   // Controla a visibilidade dos formulários
   exibirFormCliente: boolean = false;
   exibirFormTelefone: boolean = false;
@@ -57,6 +65,7 @@ export class GerenciarClientePageComponent implements OnInit {
   telefoneEmEdicao: TelefoneDto | null = null;
   enderecoEmEdicao: EnderecoDto | null = null;
   cartaoEmEdicao: CartaoCreditoCliente | null = null;
+  clienteEmEdicao: Cliente | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -70,6 +79,20 @@ export class GerenciarClientePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarCliente();
+  }
+
+  private exibirCaixaMensagem(
+    mensagem: string,
+    tipo: 'sucesso' | 'erro' | 'info'
+  ): void {
+    this.mensagem = mensagem;
+    this.tipoMensagem = tipo;
+    this.exibirMensagem = true;
+
+    setTimeout(() => {
+      this.exibirMensagem = false;
+      this.mensagem = '';
+    }, 3000);
   }
 
   private carregarCliente(): void {
@@ -90,38 +113,72 @@ export class GerenciarClientePageComponent implements OnInit {
           console.log(cliente);
         }
       }),
-      take(1) // Importante para evitar memory leaks
+      take(1)
     );
   }
 
   onSubmit(): void {
-    this.clienteService
-      .updateCliente(this.clienteId, this.clienteForm.value) // Remova a verificação de validade
-      .subscribe({
-        next: () => {
-          console.log('Cliente atualizado com sucesso!');
-          this.router.navigate(['/clientes']);
-        },
-        error: (error) => console.error('Erro ao atualizar cliente:', error),
-      });
+    if (confirm('Tem certeza que deseja atualizar este cliente?')) {
+      this.clienteService
+        .updateCliente(this.clienteId, this.clienteForm.value)
+        .subscribe({
+          next: () => {
+            this.exibirCaixaMensagem(
+              'Cliente atualizado com sucesso!',
+              'sucesso'
+            );
+            this.router.navigate(['/clientes']);
+          },
+          error: (error) => {
+            this.exibirCaixaMensagem(
+              'Erro ao atualizar cliente: ' + error.message,
+              'erro'
+            );
+            console.error('Erro ao atualizar cliente:', error);
+          },
+        });
+    }
   }
 
   deletarCliente(): void {
     if (confirm('Tem certeza que deseja excluir este cliente?')) {
       this.clienteService.deleteCliente(this.clienteId).subscribe({
         next: () => {
-          console.log('Cliente excluído com sucesso!');
-          this.router.navigate(['/clientes']);
+           this.exibirCaixaMensagem(
+              'Cliente excluido com sucesso!',
+              'sucesso'
+            );
+          this.router.navigate(['/cliente']);
         },
-        error: (error) => console.error('Erro ao excluir cliente:', error),
+        error: (error) => {
+           this.exibirCaixaMensagem(
+             'Erro ao excluir cliente: ' + error.message,
+             'erro'
+           );
+          console.error('Erro ao excluir cliente:', error);
+        },
       });
     }
   }
 
+  finalizarCliente() {
+    this.router.navigate(['/cliente']);
+  }
+
   adicionarTelefone(telefone: TelefoneDto) {
-    this.telefoneService
-      .adicionarTelefone(telefone)
-      .subscribe(() => this.carregarCliente());
+    this.telefoneService.adicionarTelefone(telefone).subscribe({
+      next: () => {
+        this.exibirCaixaMensagem('Telefone adicionado com sucesso!', 'sucesso');
+        this.carregarCliente();
+      },
+      error: (error) => {
+        this.exibirCaixaMensagem(
+          'Erro ao adicionar telefone: ' + error.status,
+          'erro'
+        );
+        console.error('Erro ao adicionar Telefone:', error);
+      },
+    });
   }
 
   removerTelefone(telefone: TelefoneDto): void {
@@ -156,10 +213,6 @@ export class GerenciarClientePageComponent implements OnInit {
       .subscribe(() => this.carregarCliente());
   }
 
-  toggleFormCliente() {
-    this.exibirFormCliente = !this.exibirFormCliente;
-  }
-
   toggleFormTelefone() {
     this.exibirFormTelefone = !this.exibirFormTelefone;
     this.telefoneEmEdicao = null; // Limpa o telefone em edição ao abrir o formulário de adicionar
@@ -191,27 +244,22 @@ export class GerenciarClientePageComponent implements OnInit {
     this.exibirFormCartao = true; // Abre o formulário de cartão
   }
 
+  editarCliente(cliente: Cliente) {
+    this.exibirFormCliente = !this.exibirFormCliente;
+    if (this.exibirFormCliente) {
+      this.clienteEmEdicao = { ...cliente };
+      this.exibirFormCliente = true;
+    } else {
+      this.exibirFormCliente = false;
+    }
+  }
+
   meuFormularioCliente() {}
 
   salvarCliente(form: FormGroup) {
     // Recebe o FormGroup como argumento
     console.log('Formulário do Cliente:', form.value);
     // Lógica para salvar o cliente
-  }
-
-  ativarInativarCliente(cliente: Cliente): void {
-    const clienteAtualizado: Cliente = { ...cliente, ativo: !cliente.ativo };
-
-    this.clienteService
-      .updateCliente(this.clienteId, clienteAtualizado)
-      .subscribe({
-        next: () => {
-          console.log('Status do cliente atualizado com sucesso!');
-          this.carregarCliente(); // Recarrega o cliente para atualizar a tela
-        },
-        error: (error) =>
-          console.error('Erro ao atualizar status do cliente:', error),
-      });
   }
 
   // Métodos para salvar as edições (a serem implementados nos componentes de formulário)
@@ -230,15 +278,17 @@ export class GerenciarClientePageComponent implements OnInit {
   }
 
   salvarEnderecoEditado(endereco: EnderecoDto) {
-    this.enderecoService.atualizarEndereco(endereco.enderecoId, endereco).subscribe({
-      next: () => {
-        console.log('Endereço atualizado com sucesso!');
-        this.carregarCliente(); // Recarrega os dados
-        this.exibirFormEndereco = false; // Fecha o formulário
-        this.enderecoEmEdicao = null; // Limpa a variável de edição
-      },
-      error: (error) => console.error('Erro ao atualizar endereço:', error),
-    });
+    this.enderecoService
+      .atualizarEndereco(endereco.enderecoId, endereco)
+      .subscribe({
+        next: () => {
+          console.log('Endereço atualizado com sucesso!');
+          this.carregarCliente(); // Recarrega os dados
+          this.exibirFormEndereco = false; // Fecha o formulário
+          this.enderecoEmEdicao = null; // Limpa a variável de edição
+        },
+        error: (error) => console.error('Erro ao atualizar endereço:', error),
+      });
   }
 
   salvarCartaoEditado(cartao: CartaoCreditoCliente) {
@@ -255,5 +305,23 @@ export class GerenciarClientePageComponent implements OnInit {
       });
   }
 
-
+  salvarClienteEditado(cliente: Cliente) {
+    if (confirm('Tem certeza que deseja atualizar este cliente?')){
+      this.clienteService.updateCliente(cliente.clienteId, cliente).subscribe({
+        next: (response) => {
+          this.exibirCaixaMensagem(
+            'Cliente atualizado com sucesso!',
+            'sucesso'
+          );
+          this.carregarCliente();
+          this.exibirFormCliente = false;
+          this.clienteEmEdicao = null;
+        },
+        error: (error) => {
+          this.exibirCaixaMensagem('Erro ao atualizar cliente: ' + error.message, 'erro');
+          console.error('Erro ao atualizar cliente:', error)
+        }
+      });
+    }
+  }
 }

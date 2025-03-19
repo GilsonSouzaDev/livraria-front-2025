@@ -1,0 +1,83 @@
+@use 'sass:color';
+@import '../../base';
+
+.caixa-mensagem {
+  position: fixed;
+  /* Fixa a caixa na tela */
+  top: 50%;
+  /* Centraliza verticalmente */
+  left: 50%;
+  /* Centraliza horizontalmente */
+  transform: translate(-50%, -50%);
+  /* Ajusta o posicionamento */
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  /* Garante que fique acima de tudo */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Sombra para destaque */
+  min-width: 300px;
+  /* Largura mínima */
+  text-align: center;
+  /* Centraliza o texto */
+
+  i {
+    margin-right: 15px;
+    font-size: 1.8em;
+  }
+
+  &.sucesso {
+    background-color: rgba($success-color, 0.9);
+    /* Cor de sucesso */
+    border: 2px solid $success-color;
+    color: white;
+  }
+
+  &.erro {
+    background-color: rgba($error-color, 0.9);
+    /* Cor de erro */
+    border: 2px solid $error-color;
+    color: white;
+  }
+
+  &.info {
+    background-color: rgba($primary-color, 0.9);
+    /* Cor de informação */
+    border: 2px solid $primary-color;
+    color: white;
+  }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/src/assets/img/istockphoto-162719350-1024x1024.jpg');
+      opacity: 0.1;
+      pointer-events: none;
+    }
+}
+
+/* Estilo para a animação de fade-out */
+.fade-out {
+  animation: fadeOut 3s forwards;
+  /* 3 segundos para desaparecer */
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* Tema de Livros (opcional) */
+
+}

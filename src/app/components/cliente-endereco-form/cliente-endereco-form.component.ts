@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { EnderecoDto } from '../../models/endereco';
 import { CommonModule } from '@angular/common';
+import { ESTADOS } from '../../models/estado';
+import { TIPOS_LOGRADOURO } from '../../models/tipoLogradouro';
 
 @Component({
   selector: 'app-cliente-endereco-form',
@@ -16,6 +18,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./cliente-endereco-form.component.scss'],
 })
 export class ClienteEnderecoFormComponent implements OnInit {
+  estados = ESTADOS; // Atribui o array ESTADOS a uma propriedade do componente
+  tiposLogradouro = TIPOS_LOGRADOURO;
+
   @Input() clienteId!: number;
   @Input() enderecoEmEdicao: EnderecoDto | null = null;
   @Output() enderecoAdicionado = new EventEmitter<EnderecoDto>();
@@ -54,13 +59,13 @@ export class ClienteEnderecoFormComponent implements OnInit {
         estado: this.enderecoEmEdicao.estado,
         pais: this.enderecoEmEdicao.pais,
         observacoes: this.enderecoEmEdicao.observacoes,
-        usoCobranca: this.enderecoEmEdicao.usoCobranca
+        usoCobranca: this.enderecoEmEdicao.usoCobranca,
       });
     }
   }
 
   onSubmit(): void {
-    console.log(this.enderecoForm)
+    console.log(this.enderecoForm);
     if (this.enderecoEmEdicao) {
       const enderecoEditado: EnderecoDto = {
         enderecoId: this.enderecoEmEdicao.enderecoId,

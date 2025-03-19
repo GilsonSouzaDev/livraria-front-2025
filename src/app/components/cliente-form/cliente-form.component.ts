@@ -23,6 +23,7 @@ export class ClienteFormComponent implements OnInit {
     dataNascimento: [''],
     cpf: [''],
     email: [''],
+    ativo: []
   });
 
   constructor(private fb: FormBuilder) {}
@@ -37,6 +38,7 @@ export class ClienteFormComponent implements OnInit {
         dataNascimento: this.clienteEmEdicao.dataNascimento,
         cpf: this.clienteEmEdicao.cpf,
         email: this.clienteEmEdicao.email,
+        ativo: this.clienteEmEdicao.ativo
       });
     }
   }
@@ -44,7 +46,7 @@ export class ClienteFormComponent implements OnInit {
   onSubmit(): void {
     if (this.clienteForm.valid) {
       const clienteEditado: Cliente = {
-        clienteId: this.clienteEmEdicao?.clienteId || 0,
+        clienteId: this.clienteEmEdicao?.clienteId,
         ...this.clienteForm.value,
       };
       this.clienteEditado.emit(clienteEditado);

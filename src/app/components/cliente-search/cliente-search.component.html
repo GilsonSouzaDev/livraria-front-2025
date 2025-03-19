@@ -1,0 +1,24 @@
+<div class="search-container">
+    <h2 class="search-title">Buscar Meus Dados</h2>
+  <div class="search-underline"></div>
+  <p class="search-description">
+    Digite seu nome, e-mail ou CPF para encontrar seus dados:
+  </p>
+  <input
+    type="text"
+    placeholder="Nome, e-mail ou CPF"
+    [(ngModel)]="searchTerm"
+    class="search-input"
+
+  />
+  <div class="cont-icon">
+
+    <div class="search-buttons">
+      <button class="search-button" (click)="onSearch()">Buscar</button>
+      <button class="clear-button" (click)="onClear()">Limpar</button>
+    </div>
+    <div>
+      <mat-icon fontIcon="home" [routerLink]="['/']" ></mat-icon>
+    </div>
+  </div>
+</div>

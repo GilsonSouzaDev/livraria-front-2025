@@ -29,5 +29,11 @@
         <label for="cadastro-email">E-mail *</label>
         <input type="email" id="cadastro-email" name="email" formControlName="email">
     </div>
+    <div class="form-group">
+      <label for="cadastro-ativo">Status do Cliente</label>
+      <input type="checkbox" id="cadastro-ativo" formControlName="ativo">
+    <span>{{ clienteForm.get('ativo')?.value ? 'Ativo' : 'Inativo' }}</span>
+    </div>
+
     <button type="submit">Salvar Cliente</button>
 </form>

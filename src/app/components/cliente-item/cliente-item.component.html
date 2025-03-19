@@ -1,6 +1,6 @@
 <div class="container-cliente">
   <li class="container-lista">
-    {{ cliente.nome }} - {{ cliente.email }} - {{ cliente.codigoCliente}}
+    {{ cliente.codigoCliente }} - {{ cliente.nome}}
     <button [routerLink]="['/cliente', cliente.clienteId]">Detalhes</button>
   </li>
 </div>

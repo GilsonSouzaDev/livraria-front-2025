@@ -8,13 +8,19 @@
     </p>
     <p class="client-dados" *ngIf="cliente">CPF: {{ cliente.cpf }}</p>
 
+
     <!-- Botão para exibir/ocultar o formulário de cliente -->
-    <button class="toggle-form-button" (click)="toggleFormCliente()">
-      {{ exibirFormCliente ? 'Ocultar' : 'Editar' }} Dados Pessoais
-    </button>
+      <button class="toggle-form-button" (click)="editarCliente(cliente)">
+        {{ exibirFormCliente ? 'Ocultar' : 'Editar' }} Dados Pessoais
+      </button>
 
     <!-- Formulário para editar os dados do cliente (inicialmente oculto) -->
-
+     <app-cliente-form
+     *ngIf="exibirFormCliente"
+      [clienteId]="cliente.clienteId"
+      [clienteEmEdicao]="clienteEmEdicao"
+      (clienteEditado)="salvarClienteEditado($event)"
+     ></app-cliente-form>
 
     <h3>Telefones:</h3>
     <table class="table">
@@ -23,7 +29,7 @@
           <th>Tipo</th>
           <th>DDD</th>
           <th>Número</th>
-          <th>Ações</th>
+          <th class="coluna-fixa">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -71,7 +77,7 @@
           <th>Logradouro</th>
           <th>Número</th>
           <th>Bairro</th>
-          <th>Ações</th>
+          <th class="coluna-fixa">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -116,11 +122,11 @@
     <table class="table">
       <thead>
         <tr>
-          <th>bandeira</th>
-          <th>numero</th>
-          <th>nome</th>
-          <th>preferencial</th>
-          <th>Ações</th>
+          <th>Bandeira</th>
+          <th>Numero</th>
+          <th>Nome</th>
+          <th>Preferencial</th>
+          <th class="coluna-fixa">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -158,17 +164,17 @@
       (cartaoEditado)="salvarCartaoEditado($event)"
     ></app-cliente-cartao-form>
 
+
+    <button class="finalizar-client-button" (click)="finalizarCliente()">
+      Finalizar
+    </button>
+
     <button class="delete-client-button" (click)="deletarCliente()">
       Excluir Conta
     </button>
 
-    <!-- Botão Ativar/Inativar -->
-    <button
-      class="inactive-button"
-      (click)="ativarInativarCliente(cliente)"
-    >
-      {{ cliente.ativo ? 'Inativar' : 'Ativar' }} Cliente
-    </button>
-  </div>
+    <app-caixa-mensagem *ngIf="mensagem" [mensagem]="mensagem" [tipo]="tipoMensagem"></app-caixa-mensagem>
+
+   </div>
   <p *ngIf="!(cliente$ | async)">Cliente não encontrado.</p>
 </section>
