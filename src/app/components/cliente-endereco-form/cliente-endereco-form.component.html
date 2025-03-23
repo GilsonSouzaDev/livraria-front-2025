@@ -1,72 +1,118 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="enderecoForm">
-  <div class="form-group">
-    <label for="nomeEndereco">Nome do Endereço:</label>
-    <input type="text" id="nomeEndereco" formControlName="nomeEndereco" />
-  </div>
-  <div class="form-group">
-    <label for="tipoResidencia">Tipo de Residência:</label>
-    <select id="tipoResidencia" formControlName="tipoResidencia">
-      <option value="">Selecione...</option>
-      <option value="Casa">Casa</option>
-      <option value="Apartamento">Apartamento</option>
-      <option value="Comercial">Comercial</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="tipoLogradouro">Tipo Logradouro:</label>
-    <select id="tipoLogradouro" formControlName="tipoLogradouro">
-      <option value="">Selecione...</option>
-      <option *ngFor="let tipo of tiposLogradouro" [value]="tipo">
-        {{ tipo }}
-      </option>
-    </select>
-  </div>
 
-  <div class="form-group">
-    <label for="logradouro">Logradouro:</label>
-    <input type="text" id="logradouro" formControlName="logradouro" />
-  </div>
-  <div class="form-group">
-    <label for="numero">Número:</label>
-    <input type="text" id="numero" formControlName="numero" />
-  </div>
-  <div class="form-group">
-    <label for="bairro">Bairro:</label>
-    <input type="text" id="bairro" formControlName="bairro" />
-  </div>
-  <div class="form-group">
-    <label for="cep">CEP:</label>
-    <input type="text" id="cep" formControlName="cep" />
-  </div>
-  <div class="form-group">
-      <label>Cidade *</label>
-      <input type="text" class="cadastro-city" id="cidade" formControlName="cidade">
-  </div>
-  <div class="form-group">
-      <label>Estado *</label>
-      <select id="estado" class="cadastro-state" formControlName="estado">
-      <option value="">Selecione...</option>
-      <option *ngFor="let estado of estados" [value]="estado">
-        {{ estado }}
-      </option>
-    </select>
+    <div class="form-group">
+        <label for="nomeEndereco">Nome do Endereço:</label>
+        <input type="text" id="nomeEndereco" formControlName="nomeEndereco" />
+        <div *ngIf="enderecoForm.get('nomeEndereco')?.invalid && enderecoForm.get('nomeEndereco')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('nomeEndereco')?.errors?.['required']">O Nome do Endereço é obrigatório.</small>
+            <small class="error" *ngIf="enderecoForm.get('nomeEndereco')?.errors?.['pattern']">O campo deve conter letras e espaços (mín. 3, máx. 100 caracteres).</small>
+        </div>
+    </div>
 
-  </div>
-  <div class="form-group">
-      <label>País *</label>
-      <input type="text" class="cadastro-country" id="pais" formControlName="pais">
-  </div>
-  <div class="form-group">
-      <label for="observacoes">Observações</label>
-      <textarea id="observacoes" formControlName="observacoes"></textarea>
-  </div>
-  <div class="form-group">
-      <label for="usoCobranca">Usar como endereço de cobrança</label>
-      <input type="checkbox" id="usoCobranca" formControlName="usoCobranca">
-  </div>
+    <div class="form-group">
+        <label for="tipoResidencia">Tipo de Residência:</label>
+        <select id="tipoResidencia" formControlName="tipoResidencia">
+            <option value="">Selecione...</option>
+            <option value="Casa">Casa</option>
+            <option value="Apartamento">Apartamento</option>
+            <option value="Comercial">Comercial</option>
+        </select>
+        <div *ngIf="enderecoForm.get('tipoResidencia')?.invalid && enderecoForm.get('tipoResidencia')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('tipoResidencia')?.errors?.['required']">O Tipo de Residência é obrigatório.</small>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <label for="tipoLogradouro">Tipo Logradouro:</label>
+        <select id="tipoLogradouro" formControlName="tipoLogradouro">
+            <option value="">Selecione...</option>
+            <option *ngFor="let tipo of tiposLogradouro" [value]="tipo">
+                {{ tipo }}
+            </option>
+        </select>
+        <div *ngIf="enderecoForm.get('tipoLogradouro')?.invalid && enderecoForm.get('tipoLogradouro')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('tipoLogradouro')?.errors?.['required']">O Tipo de Logradouro é obrigatório.</small>
+        </div>
+    </div>
 
-  <button type="submit">
-    {{ enderecoEmEdicao ? 'Salvar Edição' : 'Adicionar Endereço' }}
-  </button>
+    <div class="form-group">
+        <label for="logradouro">Logradouro:</label>
+        <input type="text" id="logradouro" formControlName="logradouro" />
+        <div *ngIf="enderecoForm.get('logradouro')?.invalid && enderecoForm.get('logradouro')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('logradouro')?.errors?.['required']">O Logradouro é obrigatório.</small>
+            <small class="error" *ngIf="enderecoForm.get('logradouro')?.errors?.['pattern']">O campo deve conter letras, números e espaços (mín. 3, máx. 150 caracteres).</small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" formControlName="numero" />
+        <div *ngIf="enderecoForm.get('numero')?.invalid && enderecoForm.get('numero')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('numero')?.errors?.['required']">O Número é obrigatório (Em casos sem numero use S/N).</small>
+            <small class="error" *ngIf="enderecoForm.get('numero')?.errors?.['pattern']">O campo deve conter apenas números (máx. 10 dígitos) ou 'S/N'.</small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" formControlName="bairro" />
+        <div *ngIf="enderecoForm.get('bairro')?.invalid && enderecoForm.get('bairro')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('bairro')?.errors?.['required']">O Bairro é obrigatório.</small>
+            <small class="error" *ngIf="enderecoForm.get('bairro')?.errors?.['pattern']">O campo deve conter apenas letras e espaços (mín. 3, máx. 100 caracteres).</small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" formControlName="cep" />
+        <div *ngIf="enderecoForm.get('cep')?.invalid && enderecoForm.get('cep')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('cep')?.errors?.['required']">O CEP é obrigatório.</small>
+            <small class="error" *ngIf="enderecoForm.get('cep')?.errors?.['pattern']">O campo deve estar no formato 99999-999.</small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Cidade *</label>
+        <input type="text" class="cadastro-city" id="cidade" formControlName="cidade">
+        <div *ngIf="enderecoForm.get('cidade')?.invalid && enderecoForm.get('cidade')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('cidade')?.errors?.['required']">A Cidade é obrigatória.</small>
+            <small class="error" *ngIf="enderecoForm.get('cidade')?.errors?.['pattern']">O campo deve conter apenas letras e espaços (mín. 3, máx. 100 caracteres).</small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Estado *</label>
+        <select id="estado" class="cadastro-state" formControlName="estado">
+            <option value="">Selecione...</option>
+            <option *ngFor="let estado of estados" [value]="estado">
+                {{ estado }}
+            </option>
+        </select>
+        <div *ngIf="enderecoForm.get('estado')?.invalid && enderecoForm.get('estado')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('estado')?.errors?.['required']">O Estado é obrigatório.</small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>País *</label>
+        <input type="text" class="cadastro-country" id="pais" formControlName="pais">
+        <div *ngIf="enderecoForm.get('pais')?.invalid && enderecoForm.get('pais')?.touched">
+            <small class="error" *ngIf="enderecoForm.get('pais')?.errors?.['required']">O País é obrigatório.</small>
+            <small class="error" *ngIf="enderecoForm.get('pais')?.errors?.['pattern']">O campo deve conter apenas letras e espaços (mín. 3, máx. 100 caracteres).</small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="observacoes">Observações</label>
+        <textarea id="observacoes" formControlName="observacoes"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="usoCobranca">Usar como endereço de cobrança</label>
+        <input type="checkbox" id="usoCobranca" formControlName="usoCobranca">
+    </div>
+
+    <button type="submit">
+        {{ enderecoEmEdicao ? 'Salvar Edição' : 'Adicionar Endereço' }}
+    </button>
 </form>

@@ -22,11 +22,20 @@ export class ClienteCartaoFormComponent implements OnInit {
   @Output() cartaoEditado = new EventEmitter<CartaoCreditoCliente>();
 
   cartaoForm: FormGroup = this.fb.group({
-    id:[null],
-    bandeiraID: [''],
-    numeroCartao: [''],
-    nomeNoCartao: [''],
-    codigoSeguranca: [''],
+    id: [null],
+    bandeiraID: ['', Validators.required],
+    numeroCartao: [
+      '',
+      [Validators.required, Validators.pattern(/^\d{13,19}$/)],
+    ], //Entre 13 e 19 digitos
+    nomeNoCartao: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+    ], //Entre 3 e 100 caracteres
+    codigoSeguranca: [
+      '',
+      [Validators.required, Validators.pattern(/^\d{3,4}$/)],
+    ], //3 ou 4 digitos
     preferencial: [false],
   });
 
@@ -51,7 +60,7 @@ export class ClienteCartaoFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.cartaoEmEdicao) {
-      console.log(this.cartaoEmEdicao.cartaoCreditoClienteId)
+      console.log(this.cartaoEmEdicao.cartaoCreditoClienteId);
       const cartaoEditado: CartaoCreditoCliente = {
         cartaoCreditoClienteId: this.cartaoEmEdicao.cartaoCreditoClienteId,
         clienteId: this.clienteId,

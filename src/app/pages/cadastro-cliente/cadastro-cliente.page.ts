@@ -10,10 +10,13 @@ import {
   FormGroup,
   ReactiveFormsModule,
   FormArray,
+  Validators,
 } from '@angular/forms';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
+import { ESTADOS } from '../../models/estado';
+import { TIPOS_LOGRADOURO } from '../../models/tipoLogradouro';
 
 @Component({
   selector: 'app-cadastro-cliente-page',
@@ -24,6 +27,9 @@ import { ClienteService } from '../../services/cliente.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CadastroClientePageComponent implements OnInit {
+  estados = ESTADOS;
+  tiposLogradouro = TIPOS_LOGRADOURO;
+
   private fb = inject(FormBuilder);
   private clienteService = inject(ClienteService);
   private router = inject(Router);
@@ -32,13 +38,29 @@ export class CadastroClientePageComponent implements OnInit {
 
   constructor() {
     this.cadastroForm = this.fb.group({
-      nome: [''],
-      codigoCliente: [''],
-      genero: [''],
-      dataNascimento: [''],
-      cpf: [''],
-      email: [''],
+      nome: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+      ],
+      codigoCliente: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-z0-9]{5,20}$/)],
+      ],
+      genero: ['', Validators.required],
+      dataNascimento: [
+        '',
+        [Validators.required],
+      ],
+      cpf: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
       ativo: [true],
+
       telefonesClientes: this.fb.array([]),
       enderecosClientes: this.fb.array([]),
     });
@@ -53,9 +75,9 @@ export class CadastroClientePageComponent implements OnInit {
   newTelefone(): FormGroup {
     return this.fb.group({
       clienteID: 0,
-      tipoTelefone: [''],
-      ddd: [''],
-      numero: [''],
+      tipoTelefone: ['', Validators.required],
+      ddd: ['', [Validators.required, Validators.pattern(/^\d{2}$/)]],
+      numero: ['', [Validators.required, Validators.pattern(/^\d{8,9}$/)]],
     });
   }
 
@@ -74,16 +96,34 @@ export class CadastroClientePageComponent implements OnInit {
   newEndereco(): FormGroup {
     return this.fb.group({
       clienteID: 0,
-      nomeEndereco: [''],
-      tipoResidencia: [''],
-      tipoLogradouro: [''],
-      logradouro: [''],
-      numero: [''],
-      bairro: [''],
-      cep: [''],
-      cidade: [''],
-      estado: [''],
-      pais: [''],
+      nomeEndereco: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+      ],
+      tipoResidencia: ['', Validators.required],
+      tipoLogradouro: ['', Validators.required],
+      logradouro: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ0-9\s]{3,150}$/)],
+      ],
+      numero: [
+        '',
+        [Validators.required, Validators.pattern(/^(\d{1,10}|S\/N)$/)],
+      ],
+      bairro: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+      ],
+      cep: ['', [Validators.required, Validators.pattern(/^\d{5}-\d{3}$/)]],
+      cidade: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+      ],
+      estado: ['', Validators.required],
+      pais: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+      ],
       observacoes: [''],
       usoCobranca: [false],
     });
@@ -98,21 +138,24 @@ export class CadastroClientePageComponent implements OnInit {
   }
 
   onSubmit() {
-    const clienteteste = this.cadastroForm.value;
-    console.log(clienteteste);
-    const cliente = this.cadastroForm.value as Cliente; // Remove a verificação de validade
-    this.clienteService.createCliente(cliente).subscribe({
-      next: (novoCliente) => {
-        alert('Cadastro realizado com sucesso!');
-        this.cadastroForm.reset();
-        this.telefones.clear();
-        this.enderecos.clear();
-        this.router.navigate(['/cliente']);
-      },
-      error: (error) => {
-        console.error('Erro ao cadastrar cliente', error);
-        alert('Erro ao cadastrar cliente');
-      },
-    });
+    if (this.cadastroForm.valid) {
+      const cliente = this.cadastroForm.value as Cliente;
+      this.clienteService.createCliente(cliente).subscribe({
+        next: () => {
+          alert('Cadastro realizado com sucesso!');
+          this.cadastroForm.reset();
+          this.telefones.clear();
+          this.enderecos.clear();
+          this.router.navigate(['/cliente']);
+        },
+        error: (error) => {
+          console.error('Erro ao cadastrar cliente', error);
+          alert('Erro ao cadastrar cliente');
+        },
+      });
+    } else {
+      alert('Por favor, preencha os campos corretamente.');
+      this.cadastroForm.markAllAsTouched();
+    }
   }
 }

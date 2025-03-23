@@ -17,13 +17,34 @@ export class ClienteFormComponent implements OnInit {
 
   clienteForm: FormGroup = this.fb.group({
     clienteId: [null],
-    nome: [''],
-    codigoCliente: [''],
-    genero: [''],
-    dataNascimento: [''],
-    cpf: [''],
-    email: [''],
-    ativo: []
+    nome: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+    ],
+    codigoCliente: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-z0-9]{5,20}$/)],
+    ],
+    genero: [
+      '',
+      [Validators.required, Validators.pattern(/^(Masculino|Feminino|Outro)$/)],
+    ],
+    dataNascimento: [
+      '',
+      [Validators.required],
+    ],
+    cpf: [
+      '',
+      [Validators.required, Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)],
+    ],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(/^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/),
+      ],
+    ],
+    ativo: [],
   });
 
   constructor(private fb: FormBuilder) {}
@@ -38,12 +59,13 @@ export class ClienteFormComponent implements OnInit {
         dataNascimento: this.clienteEmEdicao.dataNascimento,
         cpf: this.clienteEmEdicao.cpf,
         email: this.clienteEmEdicao.email,
-        ativo: this.clienteEmEdicao.ativo
+        ativo: this.clienteEmEdicao.ativo,
       });
     }
   }
 
   onSubmit(): void {
+    console.log(this.clienteForm.value)
     if (this.clienteForm.valid) {
       const clienteEditado: Cliente = {
         clienteId: this.clienteEmEdicao?.clienteId,

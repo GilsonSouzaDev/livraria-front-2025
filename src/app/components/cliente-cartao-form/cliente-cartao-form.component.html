@@ -2,32 +2,49 @@
   <div class="form-group">
     <label for="bandeiraID">Bandeira:</label>
     <select id="bandeiraID" formControlName="bandeiraID">
-      <option value="selecione">Selecione</option>
+      <option value="">Selecione</option>
       <option value="1">Visa</option>
       <option value="2">Mastercard</option>
       <option value="3">American Express</option>
       <option value="4">Elo</option>
       <option value="5">Hipercard</option>
     </select>
+    <div *ngIf="cartaoForm.get('bandeiraID')?.invalid && cartaoForm.get('bandeiraID')?.touched">
+      <small class="error" *ngIf="cartaoForm.get('bandeiraID')?.errors?.['required']">A escolha da bandeira é obrigatória.</small>
+    </div>
   </div>
+
   <div class="form-group">
     <label for="numeroCartao">Número do Cartão:</label>
     <input type="text" id="numeroCartao" formControlName="numeroCartao" />
+    <div *ngIf="cartaoForm.get('numeroCartao')?.invalid && cartaoForm.get('numeroCartao')?.touched">
+      <small class="error" *ngIf="cartaoForm.get('numeroCartao')?.errors?.['required']">O Número do Cartão é obrigatório.</small>
+      <small class="error" *ngIf="cartaoForm.get('numeroCartao')?.errors?.['pattern']">Número do Cartão deve conter entre 13 e 19 dígitos.</small>
+    </div>
   </div>
+
   <div class="form-group">
     <label for="nomeNoCartao">Nome no Cartão:</label>
     <input type="text" id="nomeNoCartao" formControlName="nomeNoCartao" />
+    <div *ngIf="cartaoForm.get('nomeNoCartao')?.invalid && cartaoForm.get('nomeNoCartao')?.touched">
+      <small class="error" *ngIf="cartaoForm.get('nomeNoCartao')?.errors?.['required']">O Nome no Cartão é obrigatório.</small>
+      <small class="error" *ngIf="cartaoForm.get('nomeNoCartao')?.errors?.['pattern']">Nome no Cartão deve conter apenas letras e espaços, entre 3 e 100 caracteres.</small>
+    </div>
   </div>
+
   <div class="form-group">
-    <label for="codigoSeguranca">codigoSeguranca:</label>
+    <label for="codigoSeguranca">Código de Segurança:</label>
     <input type="text" id="codigoSeguranca" formControlName="codigoSeguranca" />
+    <div *ngIf="cartaoForm.get('codigoSeguranca')?.invalid && cartaoForm.get('codigoSeguranca')?.touched">
+      <small class="error" *ngIf="cartaoForm.get('codigoSeguranca')?.errors?.['required']">O Código de Segurança é obrigatório.</small>
+      <small class="error" *ngIf="cartaoForm.get('codigoSeguranca')?.errors?.['pattern']">Código de Segurança deve conter 3 ou 4 dígitos.</small>
+    </div>
   </div>
+
   <div class="form-group">
     <label for="preferencial">Preferencial:</label>
     <input type="checkbox" id="preferencial" formControlName="preferencial" />
   </div>
-
-
 
   <button type="submit">
     {{ cartaoEmEdicao ? 'Salvar Edição' : 'Adicionar Cartão' }}

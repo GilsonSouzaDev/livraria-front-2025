@@ -2,14 +2,29 @@
     <h2>Cadastro de Cliente</h2>
     <form id="cadastro-form" [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
         <h2>Dados Pessoais</h2>
+
         <div class="form-group">
             <label for="cadastro-name">Nome Completo *</label>
             <input type="text" id="cadastro-name" name="nomeCompleto" formControlName="nome">
+            <div *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched">
+                <small class="error" *ngIf="cadastroForm.get('nome')?.errors?.['required']">O campo Nome é obrigatório.</small>
+                <small class="error" *ngIf="cadastroForm.get('nome')?.errors?.['pattern']">
+                    Nome deve conter apenas letras e espaços (mín. 3, máx. 100 caracteres).
+                </small>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="cadastro-codigo">Código Cliente *</label>
             <input type="text" id="cadastro-codigo" name="codigoCliente" formControlName="codigoCliente">
+            <div *ngIf="cadastroForm.get('codigoCliente')?.invalid && cadastroForm.get('codigoCliente')?.touched">
+                <small class="error" *ngIf="cadastroForm.get('codigoCliente')?.errors?.['required']">O campo Código Cliente é obrigatório.</small>
+                <small class="error" *ngIf="cadastroForm.get('codigoCliente')?.errors?.['pattern']">
+                    Código Cliente deve conter letras e números (mín. 5, máx. 20 caracteres).
+                </small>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="cadastro-gender">Gênero *</label>
             <select id="cadastro-gender" name="genero" formControlName="genero">
@@ -18,18 +33,42 @@
                 <option value="Feminino">Feminino</option>
                 <option value="Outro">Outro</option>
             </select>
+            <div *ngIf="cadastroForm.get('genero')?.invalid && cadastroForm.get('genero')?.touched">
+                <small class="error" *ngIf="cadastroForm.get('genero')?.errors?.['required']">O campo Gênero é obrigatório.</small>
+                <small class="error" *ngIf="cadastroForm.get('genero')?.errors?.['pattern']">
+                    Gênero deve ser 'Masculino', 'Feminino' ou 'Outro'.
+                </small>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="cadastro-birthdate">Data de Nascimento *</label>
             <input type="date" id="cadastro-birthdate" name="dataNascimento" formControlName="dataNascimento">
+            <div *ngIf="cadastroForm.get('dataNascimento')?.invalid && cadastroForm.get('dataNascimento')?.touched">
+                <small class="error" *ngIf="cadastroForm.get('dataNascimento')?.errors?.['required']">O campo Data de Nascimento é obrigatório.</small>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="cadastro-cpf">CPF *</label>
             <input type="text" id="cadastro-cpf" name="cpf" formControlName="cpf" placeholder="000.000.000-00">
+            <div *ngIf="cadastroForm.get('cpf')?.invalid && cadastroForm.get('cpf')?.touched">
+                <small class="error" *ngIf="cadastroForm.get('cpf')?.errors?.['required']">O campo CPF é obrigatório.</small>
+                <small class="error" *ngIf="cadastroForm.get('cpf')?.errors?.['pattern']">
+                    CPF deve estar no formato 999.999.999-99.
+                </small>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="cadastro-email">E-mail *</label>
             <input type="email" id="cadastro-email" name="email" formControlName="email">
+            <div *ngIf="cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched">
+                <small class="error" *ngIf="cadastroForm.get('email')?.errors?.['required']">O campo Email é obrigatório.</small>
+                <small class="error" *ngIf="cadastroForm.get('email')?.errors?.['pattern']">
+                    Email deve estar em um formato válido.
+                </small>
+            </div>
         </div>
 
         <h2>Telefones</h2>
@@ -44,9 +83,28 @@
                             <option value="Residencial">Residencial</option>
                             <option value="Comercial">Comercial</option>
                         </select>
+
+
                         <input type="text" class="cadastro-ddd" name="ddd{{i}}" formControlName="ddd" placeholder="DDD" maxlength="2">
+
                         <input type="text" class="cadastro-phone-number" name="telefone{{i}}" formControlName="numero" placeholder="Número" maxlength="10">
+
                         <button type="button" class="remove-phone" (click)="removeTelefone(i)">Remover</button>
+                    </div>
+
+                    <div *ngIf="telefones.controls[i].get('tipoTelefone')?.invalid && telefones.controls[i].get('tipoTelefone')?.touched">
+                            <small class="error" *ngIf="telefones.controls[i].get('tipoTelefone')?.errors?.['required']">O tipo de telefone é obrigatório.</small>
+                    </div>
+
+                    <div *ngIf="telefones.controls[i].get('ddd')?.invalid && telefones.controls[i].get('ddd')?.touched">
+                            <small class="error" *ngIf="telefones.controls[i].get('ddd')?.errors?.['required']">O DDD é obrigatório.</small>
+                            <small class="error" *ngIf="telefones.controls[i].get('ddd')?.errors?.['pattern']">O DDD deve ter 2 dígitos.</small>
+                    </div>
+
+
+                    <div *ngIf="telefones.controls[i].get('numero')?.invalid && telefones.controls[i].get('numero')?.touched">
+                            <small class="error" *ngIf="telefones.controls[i].get('numero')?.errors?.['required']">O número de telefone é obrigatório.</small>
+                            <small class="error" *ngIf="telefones.controls[i].get('numero')?.errors?.['pattern']">O número de telefone deve ter 8 ou 9 dígitos.</small>
                     </div>
                 </div>
             </div>
@@ -66,47 +124,107 @@
                             <option value="Apartamento">Apartamento</option>
                             <option value="Outro">Outro</option>
                         </select>
+                        <div *ngIf="enderecos.controls[i].get('tipoResidencia')?.invalid && enderecos.controls[i].get('tipoResidencia')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('tipoResidencia')?.errors?.['required']">O Tipo de Residência é obrigatório.</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Nome para o endereço *</label>
                         <input type="text" class="cadastro-street-type" name="nomeEndereco{{i}}" formControlName="nomeEndereco">
+                        <div *ngIf="enderecos.controls[i].get('nomeEndereco')?.invalid && enderecos.controls[i].get('nomeEndereco')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('nomeEndereco')?.errors?.['required']">O Nome do Endereço é obrigatório.</small>
+                            <small class="error" *ngIf="enderecos.controls[i].get('nomeEndereco')?.errors?.['pattern']">Nome do Endereço deve conter letras e espaços (mín. 3, máx. 100 caracteres).</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Tipo de Logradouro *</label>
-                        <input type="text" class="cadastro-street-type" name="tipoLogradouro{{i}}" formControlName="tipoLogradouro">
+                        <select name="tipoLogradouro{{i}}" class="cadastro-street-type" formControlName="tipoLogradouro">
+                            <option value="">Selecione...</option>
+                            <option *ngFor="let tipo of tiposLogradouro" [value]="tipo">
+                                {{ tipo }}
+                            </option>
+                        </select>
+                        <div *ngIf="enderecos.controls[i].get('tipoLogradouro')?.invalid && enderecos.controls[i].get('tipoLogradouro')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('tipoLogradouro')?.errors?.['required']">O Tipo de Logradouro é obrigatório.</small>
+                            <small class="error" *ngIf="enderecos.controls[i].get('tipoLogradouro')?.errors?.['pattern']">TipoLogradouro deve conter apenas letras e espaços, entre 3 e 50 caracteres.</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Logradouro *</label>
                         <input type="text" class="cadastro-street" name="logradouro{{i}}" formControlName="logradouro">
+                        <div *ngIf="enderecos.controls[i].get('logradouro')?.invalid && enderecos.controls[i].get('logradouro')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('logradouro')?.errors?.['required']">O Logradouro é obrigatório.</small>
+                            <small class="error" *ngIf="enderecos.controls[i].get('logradouro')?.errors?.['pattern']">Logradouro deve conter letras, números e espaços (mín. 3, máx. 150 caracteres).</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Número *</label>
                         <input type="text" class="cadastro-number" name="numero{{i}}" formControlName="numero">
+                        <div *ngIf="enderecos.controls[i].get('numero')?.invalid && enderecos.controls[i].get('numero')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('numero')?.errors?.['required']">O Número é obrigatório.</small>
+                            <small class="error" *ngIf="enderecos.controls[i].get('numero')?.errors?.['pattern']">Número deve conter apenas números (máx. 10 dígitos) ou 'S/N'.</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Bairro *</label>
                         <input type="text" class="cadastro-neighborhood" name="bairro{{i}}" formControlName="bairro">
+                        <div *ngIf="enderecos.controls[i].get('bairro')?.invalid && enderecos.controls[i].get('bairro')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('bairro')?.errors?.['required']">O Bairro é obrigatório.</small>
+                            <small class="error" *ngIf="enderecos.controls[i].get('bairro')?.errors?.['pattern']">Bairro deve conter apenas letras e espaços (mín. 3, máx. 100 caracteres).</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>CEP *</label>
                         <input type="text" class="cadastro-zipcode" name="cep{{i}}" formControlName="cep" placeholder="00000-000">
+                        <div *ngIf="enderecos.controls[i].get('cep')?.invalid && enderecos.controls[i].get('cep')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('cep')?.errors?.['required']">O CEP é obrigatório.</small>
+                            <small class="error" *ngIf="enderecos.controls[i].get('cep')?.errors?.['pattern']">CEP deve estar no formato 99999-999.</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Cidade *</label>
                         <input type="text" class="cadastro-city" name="cidade{{i}}" formControlName="cidade">
+                        <div *ngIf="enderecos.controls[i].get('cidade')?.invalid && enderecos.controls[i].get('cidade')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('cidade')?.errors?.['required']">A Cidade é obrigatória.</small>
+                            <small class="error" *ngIf="enderecos.controls[i].get('cidade')?.errors?.['pattern']">Cidade deve conter apenas letras e espaços (mín. 3, máx. 100 caracteres).</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Estado *</label>
-                        <input type="text" class="cadastro-state" name="estado{{i}}" formControlName="estado">
+                        <select class="cadastro-state" name="estado{{i}}" formControlName="estado">
+                            <option value="">Selecione...</option>
+                            <option *ngFor="let estado of estados" [value]="estado">
+                                {{ estado }}
+                            </option>
+                        </select>
+                        <div *ngIf="enderecos.controls[i].get('estado')?.invalid && enderecos.controls[i].get('estado')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('estado')?.errors?.['required']">O Estado é obrigatório.</small>
+                             <small class="error" *ngIf="enderecos.controls[i].get('estado')?.errors?.['pattern']">Estado deve conter apenas letras e espaços, entre 2 e 100 caracteres.</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>País *</label>
                         <input type="text" class="cadastro-country" name="pais{{i}}" formControlName="pais">
+                        <div *ngIf="enderecos.controls[i].get('pais')?.invalid && enderecos.controls[i].get('pais')?.touched">
+                            <small class="error" *ngIf="enderecos.controls[i].get('pais')?.errors?.['required']">O País é obrigatório.</small>
+                             <small class="error" *ngIf="enderecos.controls[i].get('pais')?.errors?.['pattern']">País deve conter apenas letras e espaços, entre 3 e 100 caracteres.</small>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="observacoes{{i}}">Observações</label>
                         <textarea id="observacoes{{i}}" name="observacoes{{i}}" formControlName="observacoes"></textarea>
                     </div>
+
                     <div class="form-group">
                         <label for="usoCobranca{{i}}">Usar como endereço de cobrança</label>
                         <input type="checkbox" id="usoCobranca{{i}}" name="usoCobranca{{i}}" formControlName="usoCobranca">

@@ -7,6 +7,14 @@
       Codigo: {{ cliente.codigoCliente }}
     </p>
     <p class="client-dados" *ngIf="cliente">CPF: {{ cliente.cpf }}</p>
+    <p class="client-dados" *ngIf="cliente" [ngClass]="cliente.ativo ? 'ativo' : 'inativo'">
+  {{ cliente.ativo | status }}
+</p>
+
+
+
+
+
 
 
     <!-- Botão para exibir/ocultar o formulário de cliente -->
@@ -136,9 +144,11 @@
           <td>{{ cartao.nomeNoCartao }}</td>
           <td>{{ cartao.preferencial }}</td>
           <td>
-            <button class="edit-card-button" (click)="editarCartao(cartao)">
-              Editar
-            </button>
+            <!--
+              <button class="edit-card-button" (click)="editarCartao(cartao)">
+                Editar
+              </button>
+            -->
             <button
               class="delete-phone-button"
               (click)="removerCartao(cartao.cartaoCreditoClienteId)"

@@ -1,14 +1,16 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   ReactiveFormsModule,
+
 } from '@angular/forms';
 import { EnderecoDto } from '../../models/endereco';
 import { CommonModule } from '@angular/common';
 import { ESTADOS } from '../../models/estado';
 import { TIPOS_LOGRADOURO } from '../../models/tipoLogradouro';
+
 
 @Component({
   selector: 'app-cliente-endereco-form',
@@ -18,7 +20,7 @@ import { TIPOS_LOGRADOURO } from '../../models/tipoLogradouro';
   styleUrls: ['./cliente-endereco-form.component.scss'],
 })
 export class ClienteEnderecoFormComponent implements OnInit {
-  estados = ESTADOS; // Atribui o array ESTADOS a uma propriedade do componente
+  estados = ESTADOS;
   tiposLogradouro = TIPOS_LOGRADOURO;
 
   @Input() clienteId!: number;
@@ -28,16 +30,34 @@ export class ClienteEnderecoFormComponent implements OnInit {
 
   enderecoForm: FormGroup = this.fb.group({
     enderecoId: [null],
-    nomeEndereco: [''],
-    tipoResidencia: [''],
-    tipoLogradouro: [''],
-    logradouro: [''],
-    numero: [''],
-    bairro: [''],
-    cep: [''],
-    cidade: [''],
-    estado: [''],
-    pais: [''],
+    nomeEndereco: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+    ],
+    tipoResidencia: ['', Validators.required],
+    tipoLogradouro: ['', Validators.required],
+    logradouro: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ0-9\s]{3,150}$/)],
+    ],
+    numero: [
+      '',
+      [Validators.required, Validators.pattern(/^(\d{1,10}|S\/N)$/)],
+    ],
+    bairro: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+    ],
+    cep: ['', [Validators.required, Validators.pattern(/^\d{5}-\d{3}$/)]],
+    cidade: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+    ],
+    estado: ['', Validators.required],
+    pais: [
+      '',
+      [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]{3,100}$/)],
+    ],
     observacoes: [''],
     usoCobranca: [false],
   });
@@ -80,6 +100,8 @@ export class ClienteEnderecoFormComponent implements OnInit {
         };
         this.enderecoAdicionado.emit(novoEndereco);
         this.enderecoForm.reset();
+      } else {
+        alert('Formulario invalido, Preencha todos os campos');
       }
     }
   }

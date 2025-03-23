@@ -23,9 +23,9 @@ export class ClienteTelefoneFormComponent implements OnInit {
 
   telefoneForm: FormGroup = this.fb.group({
     telefoneId: [null],
-    tipoTelefone: [''],
-    ddd: [''],
-    numero: [''],
+    tipoTelefone: ['', Validators.required],
+    ddd: ['', [Validators.required, Validators.pattern(/^\d{2}$/)]],
+    numero: ['', [Validators.required, Validators.pattern(/^\d{8,9}$/)]],
   });
 
   constructor(private fb: FormBuilder) {}
@@ -42,7 +42,7 @@ export class ClienteTelefoneFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.telefoneForm)
+    console.log(this.telefoneForm);
     if (this.telefoneEmEdicao) {
       const telefoneEditado: TelefoneDto = {
         telefoneId: this.telefoneEmEdicao.telefoneId,

@@ -3,11 +3,25 @@
     <div class="form-group">
         <label for="cadastro-name">Nome Completo *</label>
         <input type="text" id="cadastro-name" name="nomeCompleto" formControlName="nome">
+        <div *ngIf="clienteForm.get('nome')?.invalid && clienteForm.get('nome')?.touched">
+            <small class="error" *ngIf="clienteForm.get('nome')?.errors?.['required']">O campo é obrigatório.</small>
+            <small class="error" *ngIf="clienteForm.get('nome')?.errors?.['pattern']">
+                O campo deve conter apenas letras e espaços (mín. 3, máx. 100 caracteres).
+            </small>
+        </div>
     </div>
+
     <div class="form-group">
         <label for="cadastro-codigo">Código Cliente *</label>
         <input type="text" id="cadastro-codigo" name="codigoCliente" formControlName="codigoCliente">
+        <div *ngIf="clienteForm.get('codigoCliente')?.invalid && clienteForm.get('codigoCliente')?.touched">
+            <small class="error" *ngIf="clienteForm.get('codigoCliente')?.errors?.['required']">O campo é obrigatório.</small>
+            <small class="error" *ngIf="clienteForm.get('codigoCliente')?.errors?.['pattern']">
+                O campo deve conter letras e números (mín. 5, máx. 20 caracteres).
+            </small>
+        </div>
     </div>
+
     <div class="form-group">
         <label for="cadastro-gender">Gênero *</label>
         <select id="cadastro-gender" name="genero" formControlName="genero">
@@ -16,23 +30,48 @@
             <option value="Feminino">Feminino</option>
             <option value="Outro">Outro</option>
         </select>
+        <div *ngIf="clienteForm.get('genero')?.invalid && clienteForm.get('genero')?.touched">
+            <small class="error" *ngIf="clienteForm.get('genero')?.errors?.['required']">O campo é obrigatório.</small>
+            <small class="error" *ngIf="clienteForm.get('genero')?.errors?.['pattern']">
+                O campo deve ser 'Masculino', 'Feminino' ou 'Outro'.
+            </small>
+        </div>
     </div>
+
     <div class="form-group">
         <label for="cadastro-birthdate">Data de Nascimento *</label>
         <input type="date" id="cadastro-birthdate" name="dataNascimento" formControlName="dataNascimento">
+        <div *ngIf="clienteForm.get('dataNascimento')?.invalid && clienteForm.get('dataNascimento')?.touched">
+            <small class="error" *ngIf="clienteForm.get('dataNascimento')?.errors?.['required']">O campo é obrigatório.</small>
+        </div>
     </div>
+
     <div class="form-group">
         <label for="cadastro-cpf">CPF *</label>
         <input type="text" id="cadastro-cpf" name="cpf" formControlName="cpf" placeholder="000.000.000-00">
+        <div *ngIf="clienteForm.get('cpf')?.invalid && clienteForm.get('cpf')?.touched">
+            <small class="error" *ngIf="clienteForm.get('cpf')?.errors?.['required']">O campo é obrigatório.</small>
+             <small class="error" *ngIf="clienteForm.get('cpf')?.errors?.['pattern']">
+                O campo deve estar no formato 999.999.999-99.
+            </small>
+        </div>
     </div>
+
     <div class="form-group">
         <label for="cadastro-email">E-mail *</label>
         <input type="email" id="cadastro-email" name="email" formControlName="email">
+        <div *ngIf="clienteForm.get('email')?.invalid && clienteForm.get('email')?.touched">
+            <small class="error" *ngIf="clienteForm.get('email')?.errors?.['required']">O campo é obrigatório.</small>
+           <small class="error" *ngIf="clienteForm.get('email')?.errors?.['pattern']">
+                O campo deve estar em um formato válido.
+            </small>
+        </div>
     </div>
+
     <div class="form-group">
       <label for="cadastro-ativo">Status do Cliente</label>
       <input type="checkbox" id="cadastro-ativo" formControlName="ativo">
-    <span>{{ clienteForm.get('ativo')?.value ? 'Ativo' : 'Inativo' }}</span>
+        <span>{{ clienteForm.get('ativo')?.value ? 'Ativo' : 'Inativo' }}</span>
     </div>
 
     <button type="submit">Salvar Cliente</button>

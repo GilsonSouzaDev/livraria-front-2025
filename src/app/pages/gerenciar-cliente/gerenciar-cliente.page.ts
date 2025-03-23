@@ -19,6 +19,7 @@ import { ClienteFormComponent } from '../../components/cliente-form/cliente-form
 
 import { error } from 'console';
 import { CaixaMensagemComponent } from '../../components/caixa-mensagem/caixa-mensagem.component';
+import { StatusPipe } from '../../shared/status.pipe';
 
 @Component({
   selector: 'app-gerenciar-cliente-page',
@@ -30,6 +31,7 @@ import { CaixaMensagemComponent } from '../../components/caixa-mensagem/caixa-me
     ClienteTelefoneFormComponent,
     ClienteFormComponent,
     CaixaMensagemComponent,
+    StatusPipe
   ],
   templateUrl: './gerenciar-cliente.page.html',
   styleUrls: ['./gerenciar-cliente.page.scss'],

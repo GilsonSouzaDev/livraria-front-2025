@@ -2,19 +2,34 @@
   <div class="form-group">
     <label for="tipoTelefone">Tipo de Telefone:</label>
     <select id="tipoTelefone" formControlName="tipoTelefone">
+      <option value="">Selecione</option>
       <option value="Residencial">Residencial</option>
       <option value="Celular">Celular</option>
       <option value="Comercial">Comercial</option>
     </select>
+    <div *ngIf="telefoneForm.get('tipoTelefone')?.invalid && telefoneForm.get('tipoTelefone')?.touched">
+      <small class="error" *ngIf="telefoneForm.get('tipoTelefone')?.errors?.['required']">O campo é obrigatório.</small>
+    </div>
   </div>
+
   <div class="form-group">
     <label for="ddd">DDD:</label>
     <input type="text" id="ddd" formControlName="ddd" />
+    <div *ngIf="telefoneForm.get('ddd')?.invalid && telefoneForm.get('ddd')?.touched">
+      <small class="error" *ngIf="telefoneForm.get('ddd')?.errors?.['required']">O campo é obrigatório.</small>
+      <small class="error" *ngIf="telefoneForm.get('ddd')?.errors?.['pattern']">O campo deve ter 2 dígitos.</small>
+    </div>
   </div>
+
   <div class="form-group">
     <label for="numero">Número:</label>
     <input type="text" id="numero" formControlName="numero" />
+    <div *ngIf="telefoneForm.get('numero')?.invalid && telefoneForm.get('numero')?.touched">
+      <small class="error" *ngIf="telefoneForm.get('numero')?.errors?.['required']">O campo é obrigatório.</small>
+      <small class="error" *ngIf="telefoneForm.get('numero')?.errors?.['pattern']">O campo deve ter 8 ou 9 dígitos.</small>
+    </div>
   </div>
+
   <button type="submit">
     {{ telefoneEmEdicao ? 'Salvar Edição' : 'Adicionar Telefone' }}
   </button>

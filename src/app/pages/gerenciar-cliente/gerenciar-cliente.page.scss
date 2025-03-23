@@ -197,4 +197,14 @@
       background-color: color.adjust(green, $lightness: -10%);
     }
   }
+
+    .ativo {
+      color: green;
+      font-weight: bold;
+    }
+
+    .inativo {
+      color: red;
+      font-weight: bold;
+    }
 }

@@ -58,6 +58,11 @@ h4 {
   border-bottom: 1px solid $accent-color;
 }
 
+small{
+  color: #a94442;
+  font-size: medium;
+}
+
 // Placeholder para estilos de botão (evita repetição)
 %button-style {
   padding: 12px 20px;
